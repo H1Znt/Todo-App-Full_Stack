@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Тест</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .endpoint { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        button { padding: 8px 15px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Тестирование API Todo List</h1>
+        
+        <div class="endpoint">
+            <h2>Регистрация</h2>
+            <input type="text" id="reg-username" placeholder="Username" value="testuser">
+            <input type="password" id="reg-password" placeholder="Password" value="testpass">
+            <button onclick="register()">Зарегистрироваться</button>
+            <pre id="reg-result"></pre>
+        </div>
+
+        <div class="endpoint">
+            <h2>Логин</h2>
+            <input type="text" id="login-username" placeholder="Username" value="testuser">
+            <input type="password" id="login-password" placeholder="Password" value="testpass">
+            <button onclick="login()">Войти</button>
+            <pre id="login-result"></pre>
+        </div>
+
+        <div class="endpoint">
+            <h2>Создать задачу</h2>
+            <input type="text" id="todo-title" placeholder="Название задачи" value="Тестовая задача">
+            <button onclick="createTodo()">Создать</button>
+            <pre id="create-result"></pre>
+        </div>
+
+        <div class="endpoint">
+            <h2>Получить задачи</h2>
+            <button onclick="getTodos()">Получить список</button>
+            <pre id="todos-result"></pre>
+        </div>
+    </div>
+
+    <script>
+        let accessToken = '';
+        let refreshToken = '';
+
+        async function register() {
+            const username = document.getElementById('reg-username').value;
+            const password = document.getElementById('reg-password').value;
+            
+            const response = await fetch('http://localhost:3000/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            
+            const result = await response.json();
+            document.getElementById('reg-result').textContent = JSON.stringify(result, null, 2);
+            
+            if (response.ok) {
+                accessToken = result.accessToken;
+                refreshToken = result.refreshToken;
+            }
+        }
+
+        async function login() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            
+            const response = await fetch('http://localhost:3000/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            
+            const result = await response.json();
+            document.getElementById('login-result').textContent = JSON.stringify(result, null, 2);
+            
+            if (response.ok) {
+                accessToken = result.accessToken;
+                refreshToken = result.refreshToken;
+            }
+        }
+
+        async function createTodo() {
+            const title = document.getElementById('todo-title').value;
+            
+            const response = await fetch('http://localhost:3000/todos', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({ title })
+            });
+            
+            const result = await response.json();
+            document.getElementById('create-result').textContent = JSON.stringify(result, null, 2);
+        }
+
+        async function getTodos() {
+            const response = await fetch('http://localhost:3000/todos', {
+                headers: { 
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+            
+            const result = await response.json();
+            document.getElementById('todos-result').textContent = JSON.stringify(result, null, 2);
+        }
+    </script>
+</body>
+</html>
