@@ -1,14 +1,41 @@
-# Todo App
+# Todo App (FullStack)
 
 ## Cервис/приложение "Список задач" (Todo List) с аутентификацией и хранением данных на сервере.
 
 ## Стек:
 
-> React, Redux Toolkit, Axios, Tailwind CSS, TypeScript, Vite, Node.js (Express/Fastify), SQLite и JWT-аутентификация.
+> *React, Redux Toolkit, RTK Query, Tailwind CSS, TypeScript, Vite, Axios, Node.js (Express), nodemon, SQLite и JWT-аутентификация.*
+
+---
+
+## Папки в проекте:
+
+> ***client - Фронтенд часть***
+
+> ***server - Бэкенд часть***
+
+---
 
 ## Установка и запуск
 
-> установка зависимостей клиент(client)|сервер(server) (npm install)
+> ***установка зависимостей на сервер(server)***
+>> с помощью команды - (npm install) или (npm i).
 
-> запуск бэкенда(server) и фронтенда(client) (npm run dev).
+> ***установка зависимостей на клиент(client)***
+>> с помощью команды - (pnpm install) или (pnpm i).
 
+> ***запуск бэкенда(server)***
+>> с помощью команды - (npm run dev).
+
+> ***запуск фронтенда(client)***
+>> с помощью команды - (pnpm run dev).
+
+## Внешний вид приложения:
+
+* Атворизация
+
+![login](./public/login.png)
+
+* Задачи
+
+![todo](./public/todo.png)
