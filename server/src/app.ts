@@ -23,7 +23,17 @@ initializeDatabase().then(() => {
   process.exit(1);
 });
 
-app.get('/', (req, res) => {
+app.use('/auth', authRouter);
+app.use('/todos', todosRouter);
+app.use('/dev', devRouter);
+
+// app.use(express.static(path.join(__dirname, '../../client/dist')));
+
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
+// });
+
+app.get('/admin', (req, res) => {
   res.json({ 
     message: 'Todo List API',
     endpoints: {
@@ -32,10 +42,6 @@ app.get('/', (req, res) => {
     }
   });
 });
-
-app.use('/auth', authRouter);
-app.use('/todos', todosRouter);
-app.use('/dev', devRouter);
 
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.error(err.stack);
