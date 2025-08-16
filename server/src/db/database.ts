@@ -6,8 +6,11 @@ let db: Database | null = null;
 
 export async function initializeDatabase() {
 
+  const filename = process.env.DB_FILE
+    || path.join(__dirname, '../../database.sqlite');
+
   db = await open({
-    filename: path.join(__dirname, '../../database.sqlite'),
+    filename,
     driver: sqlite3.Database
   });
 
